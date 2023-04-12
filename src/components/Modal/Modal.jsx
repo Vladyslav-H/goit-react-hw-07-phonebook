@@ -1,13 +1,9 @@
 import { useDispatch } from 'react-redux';
-import { deleteContacts, getContacts } from 'redux/contacts/operations';
+import { deleteContacts } from 'redux/contacts/contactsOperations';
 import { CiFaceFrown, CiFaceSmile } from 'react-icons/ci';
+import PropTypes from 'prop-types';
 
-import {
-  ModalWrapp,
-  BtnN,
-  BtnY,
-  ButtonWrapp,
-} from './Modal.styled';
+import { ModalWrapp, BtnN, BtnY, ButtonWrapp } from './Modal.styled';
 
 import { ModalIconStyled } from 'components/IconStyled/IconStyled';
 
@@ -15,10 +11,11 @@ const Modal = ({ id, onClose, name }) => {
   const dispatch = useDispatch();
 
   const removeItemCont = id => {
-    dispatch(deleteContacts(id))
-      .then(() => dispatch(getContacts()))
-      .then(() => onClose())
-      .catch(e => console.error(e.message));
+    dispatch(deleteContacts(id));
+    // .then(() => dispatch(getContacts()))
+    // .then(() => onClose())
+    // .catch(e => console.error(e.message));
+    onClose();
   };
 
   return (
@@ -39,4 +36,11 @@ const Modal = ({ id, onClose, name }) => {
     </ModalWrapp>
   );
 };
+
+Modal.propTypes = {
+  name: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+};
+
 export default Modal;

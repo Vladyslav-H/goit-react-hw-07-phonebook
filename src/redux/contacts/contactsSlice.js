@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getContacts, deleteContacts, postContacts } from './operations';
+import { getContacts, deleteContacts, postContacts } from './contactsOperations';
 
-const handlePending = state => {
+const setPending = state => {
   state.isLoading = true;
   state.error = null;
 };
@@ -24,17 +24,21 @@ const contactsSlice = createSlice({
   },
 
   extraReducers: {
-    [getContacts.pending]: handlePending,
+    [getContacts.pending]: setPending,
     [getContacts.fulfilled]: setFulfilled,
     [getContacts.rejected]: setRejected,
 
-    [postContacts.pending]: handlePending,
-    [postContacts.fulfilled]: setFulfilled,
+    [postContacts.pending]: setPending,
+    [postContacts.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.contacts.push(action.payload);
+    },
     [postContacts.rejected]: setRejected,
 
-    [deleteContacts.pending]: handlePending,
-    [deleteContacts.fulfilled](state) {
+    [deleteContacts.pending]: setPending,
+    [deleteContacts.fulfilled](state, action) {
       state.isLoading = false;
+      state.contacts = state.contacts.filter(el => el.id !== action.payload);
     },
     [deleteContacts.rejected]: setRejected,
   },

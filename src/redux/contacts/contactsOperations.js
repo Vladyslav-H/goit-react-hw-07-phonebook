@@ -1,4 +1,3 @@
-
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -9,7 +8,7 @@ export const getContacts = createAsyncThunk(
   async function (_, { rejectWithValue }) {
     try {
       const response = await axios.get('/contacts');
-      if (response.status !== 200) throw new Error('somesing went wrong');
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -22,12 +21,13 @@ export const deleteContacts = createAsyncThunk(
     try {
       const response = await axios.delete(`/contacts/${id}`);
 
-      if (response.status !== 200) throw new Error('somesing went wrong');
+      return response.data.id;
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
+
 export const postContacts = createAsyncThunk(
   'contacts/postContacts',
   async function (newContact, { rejectWithValue }) {
@@ -38,8 +38,6 @@ export const postContacts = createAsyncThunk(
         phone,
       });
 
-      if (response.status !== 200) throw new Error('somesing went wrong');
-      console.log(response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);

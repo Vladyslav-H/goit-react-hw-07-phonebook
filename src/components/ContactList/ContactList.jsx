@@ -4,27 +4,26 @@ import { useEffect } from 'react';
 import Loader from 'components/Loader/Loader';
 
 import ContactItem from 'components/ContactItem/ContactItem';
-import { getContacts } from 'redux/contacts/operations';
+import { getContacts } from 'redux/contacts/contactsOperations';
+ import {
+  selectContacts,
+  selectError,
+  selectIsLoading,
+  filtedContacts,
+} from 'redux/contacts/contactsSelector';
 
 const ContactList = () => {
-  const { contacts, isLoading, error } = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+ 
   const dispatch = useDispatch();
-
-  const filterVisible = () => {
-    const normalizedFilter = filter.toLowerCase();
-
-    if (contacts.length === 0) return;
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
 
   useEffect(() => {
     dispatch(getContacts());
   }, [dispatch]);
 
-  const filteredContacts = filterVisible();
+  const newContactsList = useSelector(filtedContacts) 
   return (
     <ul>
       {isLoading ? (
@@ -33,10 +32,10 @@ const ContactList = () => {
         <h3>{error}</h3>
       ) : !contacts.length ? (
         <h3>You don't have any contacts yet</h3>
-      ) : !filteredContacts.length ? (
+      ) : !newContactsList.length ? (
         <h3>No matches found</h3>
       ) : (
-        filteredContacts.map(({ id, name, phone }) => (
+        newContactsList.map(({ id, name, phone }) => (
           <ContactItem
             key={id}
             name={name}

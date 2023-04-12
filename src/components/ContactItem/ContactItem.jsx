@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import Modal from 'components/Modal/Modal';
 import { useState } from 'react';
 import {
@@ -37,6 +39,12 @@ const ContactItem = ({ name, number, id }) => {
       {isOpen && <Modal onClose={close} name={name} id={id} />}
     </ContactItemStyled>
   );
+};
+
+ContactItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default ContactItem;

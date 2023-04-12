@@ -11,10 +11,10 @@ export const ItemIconStyled = {
 };
 
 export const FormIconStyled = {
-        position: 'absolute',
-    top:' 18px',
-    left: '24px',
-    width: '78px',
-    height: 'auto',
-fill:'#94715f'
-}
+  position: 'absolute',
+  top: ' 18px',
+  left: '24px',
+  width: '78px',
+  height: 'auto',
+  fill: '#94715f',
+};

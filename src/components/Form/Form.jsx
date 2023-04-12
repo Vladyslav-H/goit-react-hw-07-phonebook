@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { postContacts, getContacts } from 'redux/contacts/operations';
+import { postContacts } from 'redux/contacts/contactsOperations';
 import { MdPersonAddAlt1 } from 'react-icons/md';
-import { RiContactsBookFill} from 'react-icons/ri';
+import { RiContactsBookFill } from 'react-icons/ri';
 
 import { FormStyled, Button, Label, Input } from './Form.styled';
-import { ItemIconStyled,FormIconStyled } from 'components/IconStyled/IconStyled';
+import {
+  ItemIconStyled,
+  FormIconStyled,
+} from 'components/IconStyled/IconStyled';
 
 export const Form = () => {
   const [name, setName] = useState('');
@@ -40,10 +43,11 @@ export const Form = () => {
       return alert(`${name} is alredy in contacts`);
     }
 
-    dispatch(postContacts({ name, phone })).then(() => dispatch(getContacts()))
-      .then(() => resetForm())
-      .catch(e => console.error(e.message));
-   
+    dispatch(postContacts({ name, phone }));
+    // .then(() => dispatch(getContacts()))
+    // .then(() => resetForm())
+    // .catch(e => console.error(e.message));
+    resetForm();
   };
 
   const resetForm = () => {
@@ -53,7 +57,7 @@ export const Form = () => {
 
   return (
     <FormStyled onSubmit={handleSubmit}>
-      <RiContactsBookFill style={FormIconStyled}/>
+      <RiContactsBookFill style={FormIconStyled} />
       <Label>
         <span>Name</span>
         <Input
